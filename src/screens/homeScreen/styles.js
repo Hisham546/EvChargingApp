@@ -5,9 +5,14 @@ import { theme } from "../styles";
 import deviceDimensions from "../utils/DeviceDimensions";
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-          backgroundColor: '#fdfcf7'
-    },
+        ...StyleSheet.absoluteFillObject,
+        flex: 1, //the container will fill the whole screen.
+        justifyContent: "flex-end",
+        alignItems: "center",
+      },
+      map: {
+        ...StyleSheet.absoluteFillObject,
+      },
 
     calendarView: {
         width: deviceDimensions.deviceWidth,
