@@ -1,80 +1,28 @@
-import { View, Text, ScrollView } from "react-native"
+import { View, Text, ScrollView, PermissionsAndroid, Platform, FlatList } from "react-native"
 import styles from "./styles";
 import { useEffect, useState, useRef } from "react";
-
 import MapComponent from "../../components/maps";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { GOOGLE_MAPS_PLACES_API_KEY, GOOGLE_MAPS_API_KEY } from '@env';
+import Geolocation from '@react-native-community/geolocation';
+
+const HomeScreen = (props) => {
+
+    const { onPlaceSelected, region, currentLocation, markers } = props
 
 
-const HomeScreen = () => {
-
-    const [markers, setMarkers] = useState([]);
-    const mapRef = useRef(null);
-    const [region, setRegion] = useState({
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
-    });
-
-    const fetchEVChargingStations = async (latitude, longitude) => {
-        console.log(latitude, longitude)
-        const radius = 5000; // Radius in meters
-        const type = 'EV+charging';
-        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&keyword=${type}&key=${GOOGLE_MAPS_PLACES_API_KEY}`;
-
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-
-            if (data.results) {
-                const evMarkers = data.results.map((place) => ({
-                    id: place.place_id,
-                    name: place.name,
-                    location: {
-                        latitude: place.geometry.location.lat,
-                        longitude: place.geometry.location.lng,
-                    },
-                }));
-                setMarkers(evMarkers);
-            } else {
-                console.log('No EV charging stations found.');
-            }
-        } catch (error) {
-            console.error('Error fetching EV charging stations:', error);
-        }
-    };
-
-    const onPlaceSelected = (data, details) => {
-        const { geometry } = details;
-        console.log(geometry.location.lat, geometry.location.lng)
-        setRegion({
-            latitude: geometry.location.lat,
-            longitude: geometry.location.lng,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-        });
-        fetchEVChargingStations(geometry.location.lat, geometry.location.lng);
-    };
 
     return (
 
         <View style={styles.container} >
-
-
-
             <MapComponent
-
-
                 markers={markers}
-                mapRef={mapRef}
                 region={region}
+                currentLocation={currentLocation}
                 onPlaceSelected={onPlaceSelected}
+
             />
         </View>
-
-
 
     )
 }

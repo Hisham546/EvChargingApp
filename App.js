@@ -1,15 +1,12 @@
 
-
-
 import React from 'react';
-
-import HomeScreen from './src/screens/homeScreen';
+import HomeScreenContainer from './src/container/homeContainer';
 
 function App() {
 
 
     return (
-        <HomeScreen />
+        <HomeScreenContainer />
     );
 }
 

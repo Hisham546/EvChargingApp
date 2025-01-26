@@ -16,6 +16,22 @@ const styles = StyleSheet.create({
         paddingLeft: 15,
         color: 'black', // Input text color
     },
+    evStationCard: {
+        backgroundColor: "red",
+        padding: 10,
+        borderRadius: 8,
+        marginRight: 10,
+        width: 150,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    flatListContainer: {
+        position: "absolute",
+        bottom: 10,
+        left: 10,
+        right: 10,
+        paddingVertical: 5,
+    },
 
 })
 
