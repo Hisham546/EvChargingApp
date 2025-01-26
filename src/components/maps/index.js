@@ -66,7 +66,7 @@ export default function MapComponent(props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: "flex-start", // Place search bar at the top
+        justifyContent: "flex-start", 
         alignItems: "center",
     },
     searchContainer: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
         top: 10,
         left: '5%',
         right: '5%',
-        zIndex: 1, // Ensures search bar is on top
+        zIndex: 1, 
         width: '90%',
     },
     searchBar: {
@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 15,
         color:'black',
-        width: '100%', // Ensure it stretches across its container
+        width: '100%', 
     },
     map: {
         ...StyleSheet.absoluteFillObject,

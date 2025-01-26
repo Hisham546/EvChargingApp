@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react";
 
 import MapComponent from "../../components/maps";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_MAPS_PLACES_API_KEY,GOOGLE_MAPS_API_KEY } from '@env';
+import { GOOGLE_MAPS_PLACES_API_KEY, GOOGLE_MAPS_API_KEY } from '@env';
 
 
 const HomeScreen = () => {
@@ -19,10 +19,10 @@ const HomeScreen = () => {
     });
 
     const fetchEVChargingStations = async (latitude, longitude) => {
-        console.log(latitude,longitude)
+        console.log(latitude, longitude)
         const radius = 5000; // Radius in meters
-        const type = 'electric_vehicle_charging_station';
-        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=${type}&key=${GOOGLE_MAPS_PLACES_API_KEY}`;
+        const type = 'EV+charging';
+        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&keyword=${type}&key=${GOOGLE_MAPS_PLACES_API_KEY}`;
 
         try {
             const response = await fetch(url);
@@ -48,13 +48,14 @@ const HomeScreen = () => {
 
     const onPlaceSelected = (data, details) => {
         const { geometry } = details;
+        console.log(geometry.location.lat, geometry.location.lng)
         setRegion({
             latitude: geometry.location.lat,
             longitude: geometry.location.lng,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         });
-      //  fetchEVChargingStations(geometry.location.lat, geometry.location.lng);
+        fetchEVChargingStations(geometry.location.lat, geometry.location.lng);
     };
 
     return (
@@ -64,9 +65,9 @@ const HomeScreen = () => {
 
 
             <MapComponent
-            
-            
-            markers={markers}
+
+
+                markers={markers}
                 mapRef={mapRef}
                 region={region}
                 onPlaceSelected={onPlaceSelected}
