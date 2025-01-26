@@ -5,54 +5,17 @@ import { theme } from "../../styles";
 import deviceDimensions from "../../utils/DeviceDimensions";
 const styles = StyleSheet.create({
     container: {
-        ...StyleSheet.absoluteFillObject,
-        flex: 1, //the container will fill the whole screen.
-        justifyContent: "flex-end",
-        alignItems: "center",
-      },
-      map: {
-        ...StyleSheet.absoluteFillObject,
-      },
-
-    calendarView: {
-        width: deviceDimensions.deviceWidth,
-        height: deviceDimensions.deviceHeight * 0.20,
-        //  backgroundColor: theme.colors.BLUE
+        flex: 1,
+        backgroundColor: 'white'
     },
-    centerView: {
-        width: deviceDimensions.deviceWidth,
-        height: deviceDimensions.deviceHeight,
-    //    backgroundColor:'red'
-      
-
-
+    searchBar: {
+        height: 50,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 10,
+        paddingLeft: 15,
+        color: 'black', // Input text color
     },
-    habitsListView: {
-        width: deviceDimensions.deviceWidth,
-        height: deviceDimensions.deviceHeight * 0.11,
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-    
-
-    },
-    habitCards: {
-        width: deviceDimensions.deviceWidth * 0.80,
-        height: deviceDimensions.deviceHeight * 0.09,
-        borderRadius:5,
-        elevation:0.5,
-        backgroundColor:theme.colors.WHITE,
-        shadowOpacity:3,      
-        marginTop: '5%',
-        justifyContent: 'center',
-    
-
-
-    },
-    hello:{
-        color:'black'
-    }
-
 
 })
 
