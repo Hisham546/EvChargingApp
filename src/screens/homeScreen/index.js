@@ -1,84 +1,80 @@
-import { View, Text,ScrollView } from "react-native"
+import { View, Text, ScrollView } from "react-native"
 import styles from "./styles";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import MapComponent from "../../components/maps";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_MAPS_PLACES_API_KEY } from '@env';
+import { GOOGLE_MAPS_PLACES_API_KEY,GOOGLE_MAPS_API_KEY } from '@env';
 
 
 const HomeScreen = () => {
 
-
-
+    const [markers, setMarkers] = useState([]);
+    const mapRef = useRef(null);
     const [region, setRegion] = useState({
         latitude: 37.78825,
         longitude: -122.4324,
-        latitudeDelta: 0.015,
-        longitudeDelta: 0.0121,
+        latitudeDelta: 0.05,
+        longitudeDelta: 0.05,
     });
 
-    const [place, setPlace] = useState(null);
+    const fetchEVChargingStations = async (latitude, longitude) => {
+        console.log(latitude,longitude)
+        const radius = 5000; // Radius in meters
+        const type = 'electric_vehicle_charging_station';
+        const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${latitude},${longitude}&radius=${radius}&type=${type}&key=${GOOGLE_MAPS_PLACES_API_KEY}`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if (data.results) {
+                const evMarkers = data.results.map((place) => ({
+                    id: place.place_id,
+                    name: place.name,
+                    location: {
+                        latitude: place.geometry.location.lat,
+                        longitude: place.geometry.location.lng,
+                    },
+                }));
+                setMarkers(evMarkers);
+            } else {
+                console.log('No EV charging stations found.');
+            }
+        } catch (error) {
+            console.error('Error fetching EV charging stations:', error);
+        }
+    };
 
     const onPlaceSelected = (data, details) => {
-        // You can get the location details from the API response.
         const { geometry } = details;
         setRegion({
             latitude: geometry.location.lat,
             longitude: geometry.location.lng,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
         });
-        setPlace(data.description);
+      //  fetchEVChargingStations(geometry.location.lat, geometry.location.lng);
     };
-console.log(place,'................place')
+
     return (
 
-        <View style={styles.container}
+        <View style={styles.container} >
 
-        >
-        
-  
-                <GooglePlacesAutocomplete
-                    placeholder="Search"
-                     onPress={onPlaceSelected}
+
+
+            <MapComponent
             
-                    query={{
-                        key: GOOGLE_MAPS_PLACES_API_KEY,
-                        language: 'en',
-                    }}
-                    fetchDetails={true}
-                    listViewDisplayed={true}
-                    styles={{
-                        textInputContainer: {
-                         
-                        },
-                        textInput: styles.searchBar,
-                        listView: {
-                            backgroundColor: 'white', 
-                            borderRadius: 10,          
-                            borderWidth: 1,        
-                        },
-                        description: {
-                            color: 'black',           
-                        },
-                        predefinedPlacesDescription: {
-                            color: 'gray',            
-                        }
-                       
-                    }}
-                   
-                />
-   
-
-
-                <MapComponent
+            
+            markers={markers}
+                mapRef={mapRef}
                 region={region}
-                 />
-            </View>
+                onPlaceSelected={onPlaceSelected}
+            />
+        </View>
 
 
-      
+
     )
 }
 
