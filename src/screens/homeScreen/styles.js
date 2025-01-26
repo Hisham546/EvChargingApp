@@ -1,8 +1,8 @@
 import { StyleSheet } from "react-native";
 
 
-import { theme } from "../styles";
-import deviceDimensions from "../utils/DeviceDimensions";
+import { theme } from "../../styles";
+import deviceDimensions from "../../utils/DeviceDimensions";
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     centerView: {
         width: deviceDimensions.deviceWidth,
         height: deviceDimensions.deviceHeight,
+    //    backgroundColor:'red'
       
 
 
@@ -48,6 +49,9 @@ const styles = StyleSheet.create({
 
 
     },
+    hello:{
+        color:'black'
+    }
 
 
 })
