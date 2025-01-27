@@ -17,8 +17,8 @@ EVCHARGINGAPP can be used to find EV charging locations
 
  ## SETUP DETAILS:
 
- ## create an .env file in the root folder and add following keys
-  ## GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
- ## GOOGLE_MAPS_PLACES_API_KEY="YOUR_API_KEY"
+- ####  create an .env file in the root folder and add following keys
+- ####  GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
+- ####  GOOGLE_MAPS_PLACES_API_KEY="YOUR_API_KEY"
 
 
