@@ -1,9 +1,10 @@
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { StyleSheet, View, FlatList, Text } from "react-native";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_MAPS_PLACES_API_KEY } from '@env';
+import { GOOGLE_MAPS_PLACES_API_KEY,GOOGLE_MAPS_API_KEY } from '@env';
 import deviceDimensions from '../../utils/DeviceDimensions';
-export default function MapComponent(props) {
+import { theme } from '../../styles';
+export const MapComponent = (props) => {
 
     const { region, onPlaceSelected, markers, currentLocation } = props;
 
@@ -16,7 +17,7 @@ export default function MapComponent(props) {
         return (
             <View style={styles.evStationCard}>
                 <Text style={styles.chargingStationName}>{item.name}</Text>
-                <Text style={styles.description}>Rating :{item.rating}</Text>
+                <Text style={styles.rating}>Rating :{item.rating}</Text>
                 <Text style={styles.description}>{item.vicinity}</Text>
             </View>
         );
@@ -26,7 +27,12 @@ export default function MapComponent(props) {
             <View style={styles.searchContainer}>
                 <GooglePlacesAutocomplete
                     placeholder="Search"
-                    onPress={onPlaceSelected}
+                    onPress={(data, details = null) => {
+                       
+                        if (onPlaceSelected) {
+                          onPlaceSelected(data, details);
+                        }
+                      }}
                     query={{
                         key: GOOGLE_MAPS_PLACES_API_KEY,
                         language: 'en',
@@ -141,7 +147,7 @@ const styles = StyleSheet.create({
         color: 'black',
         width: deviceDimensions.deviceWidth * 0.45,
         marginRight: 10,
-        justifyContent: 'center',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
         backgroundColor: '#1e1e26'
     },
@@ -150,10 +156,20 @@ const styles = StyleSheet.create({
     },
     chargingStationName: {
         color: 'white',
-        fontSize: 13
+        fontSize: 13,
+        fontFamily: theme.fontFamily.P_BOLD
     },
     description: {
         color: 'gray',
-        fontSize: 11
+        fontSize:theme.fontSize._11,
+        margin: 3,
+        fontFamily: theme.fontFamily.P_MEDIUM
+
+    },
+    rating: {
+        color: 'gray',
+        fontSize: 11,
+        fontFamily: theme.fontFamily.P_MEDIUM
+
     }
 });

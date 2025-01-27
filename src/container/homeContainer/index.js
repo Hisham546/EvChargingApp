@@ -53,8 +53,8 @@ const HomeScreenContainer = ({ ...props }) => {
     };
 
     const onPlaceSelected = (data, details) => {
+        console.log(details)
         const { geometry } = details;
-        console.log(geometry.location.lat, geometry.location.lng)
         setRegion({
             latitude: geometry.location.lat,
             longitude: geometry.location.lng,
