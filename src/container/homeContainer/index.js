@@ -1,13 +1,16 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import HomeScreen from '../../screens/homeScreen';
 import { PermissionsAndroid, Platform, Alert } from "react-native"
 import { GOOGLE_MAPS_PLACES_API_KEY, GOOGLE_MAPS_API_KEY } from '@env';
 import Geolocation from '@react-native-community/geolocation';
+import ViewShot from "react-native-view-shot";
+import RNFS from 'react-native-fs';
+import { requestStoragePermission, locationPermission } from '../../services';
 const HomeScreenContainer = ({ ...props }) => {
 
-    const { navigation } = props
 
+    const viewShotRef = useRef();
     const [markers, setMarkers] = useState([]);
 
     const [currentLocation, setCurrentLocation] = useState(null);
@@ -53,7 +56,7 @@ const HomeScreenContainer = ({ ...props }) => {
     };
 
     const onPlaceSelected = (data, details) => {
-        console.log(details)
+
         const { geometry } = details;
         setRegion({
             latitude: geometry.location.lat,
@@ -67,17 +70,41 @@ const HomeScreenContainer = ({ ...props }) => {
 
 
 
-    const getCurrentLocation = async () => {
 
-        if (Platform.OS === 'android') {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-            );
-            if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
-                Alert.alert('Permission Denied', 'Location access is required.');
-                return;
-            }
+
+
+
+
+
+    const takeScreenshot = async () => {
+        try {
+
+            const hasPermission = await requestStoragePermission();
+            if (!hasPermission) return;
+
+
+            const uri = await viewShotRef.current.capture();
+            console.log('Screenshot URI:', uri);
+
+
+            const path = `${RNFS.DocumentDirectoryPath}/screenshot.png`;
+
+
+            await RNFS.copyFile(uri, path);
+            console.log('Screenshot saved at:', path);
+
+
+
+            Alert.alert('Screenshot Saved',);
+        } catch (error) {
+            console.error('Error taking screenshot:', error);
+            Alert.alert('Error', 'Failed to take the screenshot. Please try again.');
         }
+    };
+    const getCurrentLocation = async () => {
+        const hasPermission = await locationPermission();
+        if (!hasPermission) return;
+
 
         Geolocation.getCurrentPosition(
             (position) => {
@@ -105,6 +132,15 @@ const HomeScreenContainer = ({ ...props }) => {
 
 
 
+
+
+
+
+
+
+
+
+
     return (
 
         <HomeScreen
@@ -113,6 +149,8 @@ const HomeScreenContainer = ({ ...props }) => {
             markers={markers}
             currentLocation={currentLocation}
             region={region}
+            takeScreenshot={takeScreenshot}
+            viewShotRef={viewShotRef}
 
 
 

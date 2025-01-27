@@ -4,7 +4,7 @@ import { MapComponent } from "../../components/index";
 
 const HomeScreen = (props) => {
 
-    const { onPlaceSelected, region, currentLocation, markers } = props
+    const { onPlaceSelected, region, currentLocation, markers,takeScreenshot,viewShotRef  } = props
 
 
 
@@ -16,6 +16,8 @@ const HomeScreen = (props) => {
                 region={region}
                 currentLocation={currentLocation}
                 onPlaceSelected={onPlaceSelected}
+                takeScreenshot={takeScreenshot}
+                viewShotRef ={viewShotRef }
 
             />
         </View>

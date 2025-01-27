@@ -1,12 +1,14 @@
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { StyleSheet, View, FlatList, Text } from "react-native";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import { GOOGLE_MAPS_PLACES_API_KEY,GOOGLE_MAPS_API_KEY } from '@env';
+import { GOOGLE_MAPS_PLACES_API_KEY, GOOGLE_MAPS_API_KEY } from '@env';
 import deviceDimensions from '../../utils/DeviceDimensions';
 import { theme } from '../../styles';
+import { ButtonComponent } from "../../components/index";
+import ViewShot from "react-native-view-shot";
 export const MapComponent = (props) => {
 
-    const { region, onPlaceSelected, markers, currentLocation } = props;
+    const { region, onPlaceSelected, markers, currentLocation,takeScreenshot,viewShotRef  } = props;
 
 
 
@@ -28,11 +30,11 @@ export const MapComponent = (props) => {
                 <GooglePlacesAutocomplete
                     placeholder="Search"
                     onPress={(data, details = null) => {
-                       
+
                         if (onPlaceSelected) {
-                          onPlaceSelected(data, details);
+                            onPlaceSelected(data, details);
                         }
-                      }}
+                    }}
                     query={{
                         key: GOOGLE_MAPS_PLACES_API_KEY,
                         language: 'en',
@@ -88,7 +90,14 @@ export const MapComponent = (props) => {
                     />
                 )}
             </MapView>
-
+            <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 0.9 }} style={styles.buttonParent}>
+          
+                <ButtonComponent
+                onPress={()=>{
+                    takeScreenshot()
+                }} />
+           
+            </ViewShot>
             <View style={styles.flatlistParent}>
                 <FlatList
                     data={markers}
@@ -122,6 +131,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 10,
         left: '5%',
+        right: '5%',
+        zIndex: 1,
+        width: '90%',
+    },
+    buttonParent: {
+        position: 'absolute',
+        bottom: '30%',
+        left: '75%',
         right: '5%',
         zIndex: 1,
         width: '90%',
@@ -161,7 +178,7 @@ const styles = StyleSheet.create({
     },
     description: {
         color: 'gray',
-        fontSize:theme.fontSize._11,
+        fontSize: theme.fontSize._11,
         margin: 3,
         fontFamily: theme.fontFamily.P_MEDIUM
 
