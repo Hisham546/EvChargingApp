@@ -10,9 +10,15 @@ EVCHARGINGAPP can be used to find EV charging locations
 
 
  ## Implementation Highlights:
+- #### Google Maps and places Api is used for both map and fetching Ev charging locations
+- #### there is very less details about EV locations in places api,I displayed name,rating and vicinity of a Ev location in the   bottom card
 
 
 
+ ## SETUP DETAILS:
 
+ ## create an .env file in the root folder and add following keys
+  ## GOOGLE_MAPS_API_KEY="YOUR_API_KEY"
+ ## GOOGLE_MAPS_PLACES_API_KEY="YOUR_API_KEY"
 
 
