@@ -5,7 +5,7 @@
 EVCHARGINGAPP can be used to find EV charging locations 
 
 <img src="https://github.com/user-attachments/assets/18c23e17-ed5f-4a06-a004-00b1f51faf8f" alt="HomeScreen" width="300" />
-<img src="https://github.com/user-attachments/assets/6ccf1ca4-76f8-463c-86f1-ef9ff3e41e0f" alt="HomeScreen" width="300" />
+
 <img src="https://github.com/user-attachments/assets/51fdea24-dda0-4a34-b540-7ae2b8eea511" alt="HomeScreen" width="300" />
 
 
